@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp_MVVM.Views"
+        xmlns:local="clr-namespace:WpfApp_MVVM.Views" xmlns:viewmodels="clr-namespace:WpfApp_MVVM.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
          Title="MainWindow" FontSize="22" Height="450" Width="600">
     <Window.Resources>
@@ -55,8 +55,8 @@
         <ListBox SelectedItem="{Binding SelectedTask, Mode=TwoWay}" 
                  ItemsSource="{Binding MyTasks}" Grid.Column="1" 
                  ItemTemplate="{StaticResource taskListTemplate}"/>
-        <Button Grid.Row="1" Click="OnAddClick">Add</Button>
-        <Button Grid.Row="1" Grid.Column="1" Click="OnRemoveClick">Remove</Button>
+        <Button Grid.Row="1" Command="{Binding AddTaskCommand}">Add</Button>
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding RemoveTaskCommand}">Remove</Button>
     </Grid>
 </Window>
 <!--<ListBoxItem>

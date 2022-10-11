@@ -21,24 +21,11 @@ namespace WpfApp_MVVM.Views
     /// Interaction logic for MainView.xaml
     /// </summary>
     public partial class MainView : Window
-    {
-       MainViewModel viewModel;
-       
+    {    
         public MainView()
         {
             InitializeComponent();
-            viewModel = new MainViewModel();
-            DataContext = viewModel;
-        }
-                
-        private void OnAddClick(object sender, RoutedEventArgs e)
-        {
-            viewModel.AddTask();             
-        }
-
-        private void OnRemoveClick(object sender, RoutedEventArgs e)
-        {
-            viewModel.RemoveTask();
+            DataContext = new MainViewModel();
         }
     }
 }
