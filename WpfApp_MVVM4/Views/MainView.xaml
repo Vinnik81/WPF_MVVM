@@ -1,0 +1,70 @@
+﻿<Window x:Class="WpfApp_MVVM.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp_MVVM.Views" xmlns:viewmodels="clr-namespace:WpfApp_MVVM.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+        mc:Ignorable="d"
+        x:Name="window"
+         Title="MainWindow" FontSize="22" Height="450" Width="600">
+    <Window.Resources>
+        <Style x:Key="taskListItemTemplate" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsDone}" Value="True">
+                    <Setter Property="Foreground" Value="Green"></Setter>
+                    <!--<Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Red"/>
+                                        </Trigger>-->
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsDone}" Value="False">
+                    <Setter Property="Foreground" Value="Red"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="taskListTemplate">
+            <DockPanel>
+                <Button Command="{Binding ElementName=window, Path=DataContext.RemoveTaskCommand}" CommandParameter="{Binding}" DockPanel.Dock="Left" Margin="15 5">❌</Button>
+                <StackPanel>
+                    <TextBlock Text="{Binding Name}" Style="{StaticResource taskListItemTemplate}"/>
+                    <TextBlock FontSize="14" Text="{Binding Description}" Style="{StaticResource taskListItemTemplate}"/>
+                    <TextBlock FontSize="14" Text="{Binding Deadline, StringFormat=Deadline : {0:dd.MM.yyyy}}"/>
+                    <TextBlock FontSize="14" Text="{Binding IsDone, StringFormat=Done : {0}}"/>
+            </StackPanel>
+            </DockPanel>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label>Task name:</Label>
+            <TextBox Text="{Binding TaskName, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label>Task description:</Label>
+            <TextBox Text="{Binding TaskDescription, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Height="100"/>
+            <DatePicker SelectedDate="{Binding TaskDeadline}"></DatePicker>
+            <CheckBox IsChecked="{Binding TaskDone}" VerticalContentAlignment="Center">Done</CheckBox>
+            
+        </StackPanel>
+        <!--DisplayMemberPath="Name"-->
+        <ListBox 
+                x:Name="listBox"
+                SelectedItem="{Binding SelectedTask, Mode=TwoWay}" 
+                 ItemsSource="{Binding MyTasks}" Grid.Column="1" 
+                 ItemTemplate="{StaticResource taskListTemplate}"/>
+        <Button Grid.Row="1" Command="{Binding AddTaskCommand}">Add</Button>
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding RemoveTaskCommand}" CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}">Remove</Button>
+    </Grid>
+</Window>
+<!--<ListBoxItem>
+                <StackPanel>
+                    <TextBlock Text="Task name:"/>
+                    <TextBlock FontSize="14" Text="Task description:"/>
+                </StackPanel>
+            </ListBoxItem>-->
