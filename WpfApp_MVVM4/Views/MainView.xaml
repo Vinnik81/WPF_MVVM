@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp_MVVM.Views" xmlns:viewmodels="clr-namespace:WpfApp_MVVM.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         x:Name="window"
          Title="MainWindow" FontSize="22" Height="450" Width="600">
     <Window.Resources>
@@ -59,6 +60,14 @@
                  ItemsSource="{Binding MyTasks}" Grid.Column="1" 
                  ItemTemplate="{StaticResource taskListTemplate}"/>
         <Button Grid.Row="1" Command="{Binding AddTaskCommand}">Add</Button>
+        <!--<Button Grid.Row="1">
+            Add
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="MouseDoubleClick">
+                    <b:InvokeCommandAction Command="{Binding AddTaskCommand}"/>
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
+        </Button>-->
         <Button Grid.Row="1" Grid.Column="1" Command="{Binding RemoveTaskCommand}" CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}">Remove</Button>
     </Grid>
 </Window>
